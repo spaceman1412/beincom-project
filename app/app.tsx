@@ -12,7 +12,6 @@ export const App = () => {
       <StatusBar style="auto" />
 
       <Text style={$titleText}>To Do List</Text>
-
       <Task />
     </SafeAreaView>
   );

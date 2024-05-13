@@ -12,7 +12,7 @@ import { getSize } from "../themes/responsive";
 import { colors } from "../themes/color";
 
 type AnimatedCheckBoxProps = {
-  value: any;
+  value: boolean;
   onPress: () => void;
   style: ViewStyle;
   duration?: number;
@@ -31,7 +31,7 @@ export const AnimatedCheckBox = ({
 }: AnimatedCheckBoxProps) => {
   const trackAnimatedStyle = useAnimatedStyle(() => {
     const color = interpolateColor(
-      value.value,
+      Number(value),
       [0, 1],
       [trackColors.off, trackColors.on]
     );
@@ -43,7 +43,7 @@ export const AnimatedCheckBox = ({
   });
 
   const derivedWidth = useDerivedValue(() =>
-    withTiming(22 * Number(value.value), {
+    withTiming(22 * Number(value), {
       duration,
     })
   );
@@ -58,7 +58,7 @@ export const AnimatedCheckBox = ({
     <Pressable onPress={onPress}>
       <Animated.View style={[style, trackAnimatedStyle]}>
         <Animated.View style={thumbAnimatedStyle}>
-          <AntDesign name="check" size={getSize.v(22)} color="white" />
+          <AntDesign name="check" size={getSize.v(17)} color="white" />
         </Animated.View>
       </Animated.View>
     </Pressable>
