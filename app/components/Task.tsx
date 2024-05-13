@@ -3,18 +3,22 @@ import {
   ViewStyle,
   Text,
   TextStyle,
-  TextInput,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import React, { useState } from "react";
 
 import { FontAwesome } from "@expo/vector-icons";
 
 import Animated, {
+  FadeInLeft,
+  FadeInRight,
+  FadeInUp,
   FadeOutDown,
+  FadeOutLeft,
+  FadeOutRight,
   interpolateColor,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
@@ -25,6 +29,7 @@ import { colors } from "../themes/color";
 
 export const Task = () => {
   const [isOn, setIsOn] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   const handlePress = () => {
     setIsOn((prev) => !prev);
@@ -48,21 +53,41 @@ export const Task = () => {
       exiting={FadeOutDown}
       style={[$openContainer, trackAnimatedStyle]}
     >
+      <ClosedTask isOn={isOn} handlePress={handlePress} />
+    </Animated.View>
+  );
+};
+
+const ClosedTask = ({ isOn, handlePress }) => {
+  return (
+    <>
       <AnimatedCheckBox value={isOn} onPress={handlePress} style={$checkBox} />
       <View style={$taskContainer}>
         <Text style={$text}>aa</Text>
-        {!isOn && <Text style={[$priorityText]}>High</Text>}
+        {!isOn && (
+          <Animated.Text
+            entering={FadeInUp}
+            exiting={FadeOutDown}
+            style={[$priorityText]}
+          >
+            High
+          </Animated.Text>
+        )}
       </View>
 
       {!isOn && (
-        <View style={$endContainer}>
+        <Animated.View
+          entering={FadeInLeft}
+          exiting={FadeOutRight}
+          style={$endContainer}
+        >
           <TouchableOpacity onPress={() => {}}>
             <FontAwesome name="pencil" size={24} color="black" />
           </TouchableOpacity>
           <Text style={$dateText}>{`Còn  ngày`}</Text>
-        </View>
+        </Animated.View>
       )}
-    </Animated.View>
+    </>
   );
 };
 
