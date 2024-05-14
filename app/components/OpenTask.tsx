@@ -34,7 +34,7 @@ export const OpenTask = (props: OpenTaskProps) => {
     text,
     date: date.toISOString(),
     priority: priority,
-    id: nanoid(),
+    id: value.id,
     isDone: false,
   };
 

@@ -12,22 +12,21 @@ import { colors } from "../themes/color";
 
 import { ClosedTask } from "./ClosedTask";
 import { OpenTask } from "./OpenTask";
-import { Todo } from "../store/todoSlice";
+import { editTodo, Todo } from "../store/todoSlice";
+import { useAppDispatch } from "../store/store";
 
 type TaskProps = {
   isOpen: boolean;
-  handleCancel: () => void;
-  handleDone: () => void;
-  handleEdit: () => void;
   value: Todo;
 };
 
 export const Task = (props: TaskProps) => {
-  const { isOpen, handleCancel, handleDone, handleEdit, value } = props;
+  const [isOpen, setIsOpen] = useState(props.isOpen);
+  const dispatch = useAppDispatch();
 
   const trackAnimatedStyle = useAnimatedStyle(() => {
     const color = interpolateColor(
-      Number(value.isDone),
+      Number(props.value.isDone),
       [0, 1],
       [colors.background, colors.green]
     );
@@ -38,6 +37,15 @@ export const Task = (props: TaskProps) => {
     };
   });
 
+  const changeStatus = () => {
+    setIsOpen((currentOpen) => !currentOpen);
+  };
+
+  const handleDone = (todo: Todo) => {
+    dispatch(editTodo(todo));
+    changeStatus();
+  };
+
   return (
     <Animated.View
       exiting={FadeOutDown}
@@ -45,12 +53,12 @@ export const Task = (props: TaskProps) => {
     >
       {isOpen ? (
         <OpenTask
-          handleCancel={handleCancel}
+          handleCancel={() => changeStatus()}
           handleDone={handleDone}
-          value={value}
+          value={props.value}
         />
       ) : (
-        <ClosedTask handleEdit={handleEdit} value={value} />
+        <ClosedTask handleEdit={changeStatus} value={props.value} />
       )}
     </Animated.View>
   );
@@ -64,10 +72,10 @@ const $openContainer: ViewStyle = {
   shadowColor: "#000",
   shadowOffset: {
     width: 0,
-    height: 1,
+    height: 2,
   },
-  shadowOpacity: 0.2,
-  shadowRadius: 1.41,
-  elevation: 2,
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5,
   alignItems: "center",
 };

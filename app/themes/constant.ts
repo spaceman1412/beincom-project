@@ -36,3 +36,17 @@ export const getFormattedDate = (date: Date) => {
 
   return currentDate;
 };
+
+export const getDatesBetween = (day: string) => {
+  const date = new Date(day);
+  const currentDate = new Date();
+  // Calculating the time difference
+  // of two dates
+  let Difference_In_Time = date.getTime() - currentDate.getTime();
+
+  // Calculating the no. of days between
+  // two dates
+  let Difference_In_Days = Math.round(Difference_In_Time / (1000 * 3600 * 24));
+
+  return Difference_In_Days > 0 ? Difference_In_Days : 0;
+};

@@ -58,15 +58,7 @@ export const App = () => {
       <FlatList
         data={todoLists}
         keyExtractor={(item) => item.id}
-        renderItem={(value) => (
-          <Task
-            isOpen={false}
-            handleCancel={tempFunc}
-            handleDone={tempFunc}
-            handleEdit={tempFunc}
-            value={value.item}
-          />
-        )}
+        renderItem={(value) => <Task isOpen={false} value={value.item} />}
         ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
         contentContainerStyle={$flatList}
         showsVerticalScrollIndicator={false}
@@ -94,7 +86,10 @@ const FloatingButton = ({ onClick }: FloatingButtonProps) => {
 };
 
 const $flatList: ViewStyle = {
-  paddingVertical: 32,
+  flex: 1,
+  paddingHorizontal: getSize.v(8),
+  paddingTop: getSize.v(8),
+  marginTop: getSize.v(16),
 };
 
 const $buttonStyle: ViewStyle = {

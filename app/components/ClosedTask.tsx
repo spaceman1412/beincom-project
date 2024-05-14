@@ -17,10 +17,18 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useState } from "react";
 import { Todo, toggleCheckBox } from "../store/todoSlice";
 import { useAppDispatch } from "../store/store";
+import { getDatesBetween } from "../themes/constant";
+import { colors } from "../themes/color";
 
 type ClosedTaskProps = {
   handleEdit: () => void;
   value: Todo;
+};
+
+const priorityColors = {
+  High: colors.strongGreen,
+  Medium: colors.yellow,
+  Low: colors.red,
 };
 
 export const ClosedTask = (props: ClosedTaskProps) => {
@@ -43,7 +51,7 @@ export const ClosedTask = (props: ClosedTaskProps) => {
           <Animated.Text
             entering={FadeInUp}
             exiting={FadeOutDown}
-            style={$priorityText}
+            style={[$priorityText, { color: priorityColors[value.priority] }]}
           >
             {value.priority}
           </Animated.Text>
@@ -59,7 +67,11 @@ export const ClosedTask = (props: ClosedTaskProps) => {
           <TouchableOpacity onPress={handleEdit}>
             <FontAwesome name="pencil" size={24} color="black" />
           </TouchableOpacity>
-          <Text style={$dateText}>{`Còn  ngày`}</Text>
+          {getDatesBetween(value.date) > 0 && (
+            <Text style={$dateText}>{`About ${getDatesBetween(
+              value.date
+            )} days`}</Text>
+          )}
         </Animated.View>
       )}
     </>
@@ -76,12 +88,13 @@ const $checkBox: ViewStyle = {
 const $dateText: TextStyle = {
   fontSize: 12,
   fontWeight: "400",
+  marginTop: getSize.v(8),
 };
 
 const $priorityText: TextStyle = {
   fontSize: 14,
   fontWeight: "400",
-  color: "green",
+  marginTop: getSize.v(8),
 };
 
 const $endContainer: ViewStyle = {
