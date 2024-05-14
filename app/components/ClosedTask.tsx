@@ -14,21 +14,24 @@ import Animated, {
 } from "react-native-reanimated";
 import { getSize } from "../themes/responsive";
 import { FontAwesome } from "@expo/vector-icons";
+import { useState } from "react";
 
 type ClosedTaskProps = {
-  isDone: boolean;
-  handleCheckBox: () => void;
   handleEdit: () => void;
 };
 
 export const ClosedTask = (props: ClosedTaskProps) => {
-  const { handleCheckBox, isDone, handleEdit } = props;
+  const [isDone, setIsDone] = useState(false);
+
+  const { handleEdit } = props;
 
   return (
     <>
       <AnimatedCheckBox
         value={isDone}
-        onPress={handleCheckBox}
+        onPress={() => {
+          setIsDone(false);
+        }}
         style={$checkBox}
       />
       <View style={$taskContainer}>

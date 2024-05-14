@@ -13,9 +13,16 @@ import { colors } from "../themes/color";
 import { ClosedTask } from "./ClosedTask";
 import { OpenTask } from "./OpenTask";
 
-export const Task = () => {
+type TaskProps = {
+  isOpen: boolean;
+  handleCancel: () => void;
+  handleDone: () => void;
+  handleEdit: () => void;
+};
+
+export const Task = (props: TaskProps) => {
+  const { isOpen, handleCancel, handleDone, handleEdit } = props;
   const [isDone, setIsDone] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
 
   const trackAnimatedStyle = useAnimatedStyle(() => {
     const color = interpolateColor(
@@ -35,29 +42,16 @@ export const Task = () => {
       exiting={FadeOutDown}
       style={[$openContainer, trackAnimatedStyle]}
     >
-      {isEdit ? (
-        <OpenTask
-          handleDone={() => {
-            setIsEdit((prev) => !prev);
-          }}
-        />
+      {isOpen ? (
+        <OpenTask handleCancel={handleCancel} handleDone={handleDone} />
       ) : (
-        <ClosedTask
-          handleEdit={() => {
-            setIsEdit((prev) => !prev);
-          }}
-          isDone={isDone}
-          handleCheckBox={() => {
-            setIsDone((prev) => !prev);
-          }}
-        />
+        <ClosedTask handleEdit={handleEdit} />
       )}
     </Animated.View>
   );
 };
 
 const $openContainer: ViewStyle = {
-  backgroundColor: colors.green,
   borderRadius: 15,
   flexDirection: "row",
   paddingHorizontal: 24,

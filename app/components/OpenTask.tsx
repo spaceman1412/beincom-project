@@ -13,19 +13,21 @@ import { getSize } from "../themes/responsive";
 import { colors } from "../themes/color";
 import { DateTextBox } from "./DateTextBox";
 import { PickerTextBox } from "./PickerTextBox";
+import { Todo } from "../store/todoSlice";
 
 type OpenTaskProps = {
   handleDone: () => void;
+  handleCancel: () => void;
 };
 
 export const OpenTask = (props: OpenTaskProps) => {
-  const { handleDone } = props;
+  const { handleDone, handleCancel } = props;
 
   const [text, onChangeText] = useState("");
   const [date, setDate] = useState(new Date());
 
   return (
-    <Animated.View exiting={FadeOutUp} style={$mainContainer}>
+    <View style={$mainContainer}>
       <View
         style={{
           alignSelf: "flex-end",
@@ -33,8 +35,8 @@ export const OpenTask = (props: OpenTaskProps) => {
           flexDirection: "row",
         }}
       >
-        <TouchableOpacity onPress={() => {}}>
-          <Feather name="trash-2" size={24} color="black" />
+        <TouchableOpacity onPress={handleCancel}>
+          <Text style={$text}>Cancel</Text>
         </TouchableOpacity>
       </View>
 
@@ -57,7 +59,7 @@ export const OpenTask = (props: OpenTaskProps) => {
       <TouchableOpacity onPress={handleDone} style={$confirmButton}>
         <Text style={[{ color: colors.background }, $text]}>Done</Text>
       </TouchableOpacity>
-    </Animated.View>
+    </View>
   );
 };
 
