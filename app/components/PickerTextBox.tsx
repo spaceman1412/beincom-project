@@ -2,9 +2,15 @@ import { useRef, useState } from "react";
 import { TouchableOpacity, View, Text, TextStyle } from "react-native";
 import ModalSelector from "react-native-modal-selector";
 import { colors } from "../themes/color";
+import { priority } from "../store/todoSlice";
 
-export const PickerTextBox = () => {
-  const [text, setText] = useState("High");
+type PickerTextBoxProps = {
+  priority: priority;
+  handlePriority: (priority: priority) => void;
+};
+
+export const PickerTextBox = (props: PickerTextBoxProps) => {
+  const { priority, handlePriority } = props;
   const modalRef = useRef<ModalSelector>(null);
 
   let index = 0;
@@ -19,8 +25,12 @@ export const PickerTextBox = () => {
       ref={modalRef}
       data={data}
       onChange={(option) => {
-        if (option.label) {
-          setText(option.label);
+        if (
+          option.label === "High" ||
+          option.label === "Medium" ||
+          option.label === "Low"
+        ) {
+          handlePriority(option.label);
         }
       }}
       customSelector={
@@ -33,7 +43,7 @@ export const PickerTextBox = () => {
             }}
           >
             <Text style={$text}>Priority</Text>
-            <Text>{text}</Text>
+            <Text>{priority}</Text>
           </View>
 
           <View

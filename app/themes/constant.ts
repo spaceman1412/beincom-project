@@ -25,3 +25,14 @@ export const usePrevious = (value: any) => {
   });
   return ref.current;
 };
+
+export const getFormattedDate = (date: Date) => {
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  // This arrangement can be altered based on how we want the date's format to appear.
+  let currentDate = `${day}/${month}/${year}`;
+
+  return currentDate;
+};

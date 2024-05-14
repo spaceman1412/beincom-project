@@ -35,7 +35,6 @@ function AccordionItem({
       <View
         onLayout={(e) => {
           height.value = e.nativeEvent.layout.height;
-          console.log(height.value);
         }}
         style={styles.wrapper}
       >

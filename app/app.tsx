@@ -22,16 +22,6 @@ import { nanoid } from "@reduxjs/toolkit";
 import Animated, { FadeOutDown } from "react-native-reanimated";
 import { AddTask } from "./components/AddTask";
 
-const testTodo: Todo = {
-  date: "aaa",
-  id: nanoid(),
-  isDone: false,
-  priority: "low",
-  text: "aaa",
-};
-
-const testTODOLIST = [testTodo, testTodo];
-
 export const App = () => {
   const [isAdd, setIsAdd] = useState(false);
   const [isDone, setIsDone] = useState(false);
@@ -45,13 +35,25 @@ export const App = () => {
 
   const tempFunc = () => {};
 
+  const handleAddTask = (todo: Todo) => {
+    dispatch(addTodo(todo));
+    setIsAdd(false);
+  };
+
   return (
     <SafeAreaView style={$mainContainer}>
       <StatusBar style="auto" />
 
       <Text style={$titleText}>To Do List</Text>
 
-      {isAdd && <AddTask handleCancel={tempFunc} handleDone={tempFunc} />}
+      {isAdd && (
+        <AddTask
+          handleCancel={() => {
+            setIsAdd(false);
+          }}
+          handleDone={handleAddTask}
+        />
+      )}
 
       <FlatList
         data={todoLists}
@@ -62,6 +64,7 @@ export const App = () => {
             handleCancel={tempFunc}
             handleDone={tempFunc}
             handleEdit={tempFunc}
+            value={value.item}
           />
         )}
         ItemSeparatorComponent={() => <View style={{ height: 24 }} />}

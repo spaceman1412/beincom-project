@@ -12,21 +12,22 @@ import { colors } from "../themes/color";
 
 import { ClosedTask } from "./ClosedTask";
 import { OpenTask } from "./OpenTask";
+import { Todo } from "../store/todoSlice";
 
 type TaskProps = {
   isOpen: boolean;
   handleCancel: () => void;
   handleDone: () => void;
   handleEdit: () => void;
+  value: Todo;
 };
 
 export const Task = (props: TaskProps) => {
-  const { isOpen, handleCancel, handleDone, handleEdit } = props;
-  const [isDone, setIsDone] = useState(false);
+  const { isOpen, handleCancel, handleDone, handleEdit, value } = props;
 
   const trackAnimatedStyle = useAnimatedStyle(() => {
     const color = interpolateColor(
-      Number(isDone),
+      Number(value.isDone),
       [0, 1],
       [colors.background, colors.green]
     );
@@ -43,9 +44,13 @@ export const Task = (props: TaskProps) => {
       style={[$openContainer, trackAnimatedStyle]}
     >
       {isOpen ? (
-        <OpenTask handleCancel={handleCancel} handleDone={handleDone} />
+        <OpenTask
+          handleCancel={handleCancel}
+          handleDone={handleDone}
+          value={value}
+        />
       ) : (
-        <ClosedTask handleEdit={handleEdit} />
+        <ClosedTask handleEdit={handleEdit} value={value} />
       )}
     </Animated.View>
   );

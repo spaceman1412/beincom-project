@@ -15,39 +15,42 @@ import Animated, {
 import { getSize } from "../themes/responsive";
 import { FontAwesome } from "@expo/vector-icons";
 import { useState } from "react";
+import { Todo, toggleCheckBox } from "../store/todoSlice";
+import { useAppDispatch } from "../store/store";
 
 type ClosedTaskProps = {
   handleEdit: () => void;
+  value: Todo;
 };
 
 export const ClosedTask = (props: ClosedTaskProps) => {
-  const [isDone, setIsDone] = useState(false);
+  const { handleEdit, value } = props;
 
-  const { handleEdit } = props;
+  const dispatch = useAppDispatch();
 
   return (
     <>
       <AnimatedCheckBox
-        value={isDone}
+        value={value.isDone}
         onPress={() => {
-          setIsDone(false);
+          dispatch(toggleCheckBox(value.id));
         }}
         style={$checkBox}
       />
       <View style={$taskContainer}>
-        <Text style={$text}>aa</Text>
-        {!isDone && (
+        <Text style={$text}>{value.text}</Text>
+        {!value.isDone && (
           <Animated.Text
             entering={FadeInUp}
             exiting={FadeOutDown}
             style={$priorityText}
           >
-            High
+            {value.priority}
           </Animated.Text>
         )}
       </View>
 
-      {!isDone && (
+      {!value.isDone && (
         <Animated.View
           entering={FadeInLeft}
           exiting={FadeOutRight}

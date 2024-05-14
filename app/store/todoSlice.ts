@@ -5,10 +5,12 @@ interface TodoState {
   todoLists: Todo[];
 }
 
+export type priority = "Low" | "Medium" | "High";
+
 export type Todo = {
   id: string;
   text: string;
-  priority: "low" | "medium" | "high";
+  priority: priority;
   date: string;
   isDone: boolean;
 };
@@ -37,8 +39,15 @@ export const todoSlice = createSlice({
       );
       state.todoLists = newLists;
     },
+    toggleCheckBox: (state, action: PayloadAction<string>) => {
+      const newLists = state.todoLists.map((todo) =>
+        todo.id === action.payload ? { ...todo, isDone: !todo.isDone } : todo
+      );
+      state.todoLists = newLists;
+    },
   },
 });
 
-export const { addTodo, removeTodo, editTodo } = todoSlice.actions;
+export const { addTodo, removeTodo, editTodo, toggleCheckBox } =
+  todoSlice.actions;
 export default todoSlice.reducer;

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TouchableOpacity, View, Text, TextStyle } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { colors } from "../themes/color";
+import { getFormattedDate } from "../themes/constant";
 
 type DateTextBoxProps = {
   date: Date;
@@ -29,7 +30,7 @@ export const DateTextBox = (props: DateTextBoxProps) => {
         style={{ flexDirection: "row", justifyContent: "space-between" }}
       >
         <Text style={$text}>Duration</Text>
-        <Text>Monday</Text>
+        <Text>{getFormattedDate(date)}</Text>
       </TouchableOpacity>
 
       {show && (

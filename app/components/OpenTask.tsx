@@ -13,18 +13,34 @@ import { getSize } from "../themes/responsive";
 import { colors } from "../themes/color";
 import { DateTextBox } from "./DateTextBox";
 import { PickerTextBox } from "./PickerTextBox";
-import { Todo } from "../store/todoSlice";
+import { priority, Todo } from "../store/todoSlice";
+import { nanoid } from "@reduxjs/toolkit";
+import { useAppDispatch } from "../store/store";
 
 type OpenTaskProps = {
-  handleDone: () => void;
+  handleDone: (todo: Todo) => void;
   handleCancel: () => void;
+  value: Todo;
 };
 
 export const OpenTask = (props: OpenTaskProps) => {
-  const { handleDone, handleCancel } = props;
+  const { handleDone, handleCancel, value } = props;
 
-  const [text, onChangeText] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [text, onChangeText] = useState(value.text);
+  const [date, setDate] = useState(new Date(value.date));
+  const [priority, setPriority] = useState(value.priority);
+
+  const currentTodo: Todo = {
+    text,
+    date: date.toISOString(),
+    priority: priority,
+    id: nanoid(),
+    isDone: false,
+  };
+
+  const handlePriority = (priority: priority) => {
+    setPriority(priority);
+  };
 
   return (
     <View style={$mainContainer}>
@@ -54,9 +70,12 @@ export const OpenTask = (props: OpenTaskProps) => {
 
       <DateTextBox date={date} setDate={setDate} />
 
-      <PickerTextBox />
+      <PickerTextBox priority={priority} handlePriority={handlePriority} />
 
-      <TouchableOpacity onPress={handleDone} style={$confirmButton}>
+      <TouchableOpacity
+        onPress={() => handleDone(currentTodo)}
+        style={$confirmButton}
+      >
         <Text style={[{ color: colors.background }, $text]}>Done</Text>
       </TouchableOpacity>
     </View>
