@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {
   FlatList,
-  StyleSheet,
   Text,
   TextStyle,
   TouchableOpacity,
@@ -14,18 +13,16 @@ import { colors } from "./themes/color";
 import { getSize } from "./themes/responsive";
 import { Task } from "./components/Task";
 import { AntDesign } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
-import { OpenTask } from "./components/OpenTask";
+import { useState } from "react";
+
 import { useAppDispatch, useAppSelector } from "./store/store";
-import { addTodo, Todo, updateTodo } from "./store/todoSlice";
-import { nanoid } from "@reduxjs/toolkit";
-import Animated, { FadeOutDown } from "react-native-reanimated";
+import { addTodo, Todo } from "./store/todoSlice";
+
 import { AddTask } from "./components/AddTask";
 import { getSortedTodoList } from "./themes/constant";
 
 export const App = () => {
   const [isAdd, setIsAdd] = useState(false);
-  const [isDone, setIsDone] = useState(false);
 
   const dispatch = useAppDispatch();
   const todoLists = useAppSelector((state) => state.todoReducer.todoLists);

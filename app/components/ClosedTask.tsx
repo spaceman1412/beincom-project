@@ -14,11 +14,10 @@ import Animated, {
 } from "react-native-reanimated";
 import { getSize } from "../themes/responsive";
 import { FontAwesome } from "@expo/vector-icons";
-import { useState } from "react";
+
 import { Todo, toggleCheckBox } from "../store/todoSlice";
 import { useAppDispatch } from "../store/store";
 import { getDatesBetween, priorityColors } from "../themes/constant";
-import { colors } from "../themes/color";
 
 type ClosedTaskProps = {
   handleEdit: () => void;
@@ -40,7 +39,9 @@ export const ClosedTask = (props: ClosedTaskProps) => {
         style={$checkBox}
       />
       <View style={$taskContainer}>
-        <Text style={$text}>{value.text}</Text>
+        <Text style={$text} numberOfLines={1}>
+          {value.text}
+        </Text>
         {!value.isDone && (
           <Animated.Text
             entering={FadeInUp}
@@ -100,6 +101,7 @@ const $endContainer: ViewStyle = {
 const $text: TextStyle = {
   fontSize: 16,
   fontWeight: "500",
+  paddingEnd: 16,
 };
 
 const $taskContainer: ViewStyle = {

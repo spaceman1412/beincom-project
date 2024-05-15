@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { TouchableOpacity, View, Text, TextStyle } from "react-native";
 import ModalSelector from "react-native-modal-selector";
 import { colors } from "../themes/color";

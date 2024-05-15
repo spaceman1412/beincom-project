@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { TouchableOpacity, View, Text, TextStyle } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 import { colors } from "../themes/color";
 import { getFormattedDate } from "../themes/constant";
 
@@ -13,10 +15,11 @@ export const DateTextBox = (props: DateTextBoxProps) => {
   const { date, setDate } = props;
   const [show, setShow] = useState(false);
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
-    setShow(false);
-    setDate(currentDate);
+  const onChange = (event: DateTimePickerEvent, date?: Date) => {
+    if (date) {
+      setShow(false);
+      setDate(date);
+    }
   };
 
   const showMode = () => {

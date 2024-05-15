@@ -6,16 +6,13 @@ import {
   ViewStyle,
   Text,
   TextStyle,
+  Alert,
 } from "react-native";
-import Animated, { FadeOutUp } from "react-native-reanimated";
-import { Feather } from "@expo/vector-icons";
 import { getSize } from "../themes/responsive";
 import { colors } from "../themes/color";
 import { DateTextBox } from "./DateTextBox";
 import { PickerTextBox } from "./PickerTextBox";
 import { priority, Todo } from "../store/todoSlice";
-import { nanoid } from "@reduxjs/toolkit";
-import { useAppDispatch } from "../store/store";
 
 type OpenTaskProps = {
   handleDone: (todo: Todo) => void;
@@ -36,6 +33,21 @@ export const OpenTask = (props: OpenTaskProps) => {
     priority: priority,
     id: value.id,
     isDone: false,
+  };
+
+  const checkError = () => {
+    // Check title is empty or not
+    if (text === "" || text === undefined) {
+      return true;
+    }
+  };
+
+  const handleOnDone = () => {
+    if (checkError()) {
+      Alert.alert("Please enter text");
+      return;
+    }
+    handleDone(currentTodo);
   };
 
   const handlePriority = (priority: priority) => {
@@ -66,16 +78,14 @@ export const OpenTask = (props: OpenTaskProps) => {
           fontWeight: "500",
           paddingVertical: 4,
         }}
+        multiline={false}
       />
 
       <DateTextBox date={date} setDate={setDate} />
 
       <PickerTextBox priority={priority} handlePriority={handlePriority} />
 
-      <TouchableOpacity
-        onPress={() => handleDone(currentTodo)}
-        style={$confirmButton}
-      >
+      <TouchableOpacity onPress={handleOnDone} style={$confirmButton}>
         <Text style={[{ color: colors.background }, $text]}>Done</Text>
       </TouchableOpacity>
     </View>
