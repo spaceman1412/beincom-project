@@ -20,6 +20,7 @@ import { addTodo, Todo } from "./store/todoSlice";
 
 import { AddTask } from "./components/AddTask";
 import { getSortedTodoList } from "./themes/constant";
+import Animated, { SequencedTransition } from "react-native-reanimated";
 
 export const App = () => {
   const [isAdd, setIsAdd] = useState(false);
@@ -47,13 +48,14 @@ export const App = () => {
         />
       )}
 
-      <FlatList
+      <Animated.FlatList
         data={getSortedTodoList(todoLists)}
         keyExtractor={(item) => item.id}
         renderItem={(value) => <Task isOpen={false} value={value.item} />}
         ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
         contentContainerStyle={$flatList}
         showsVerticalScrollIndicator={false}
+        itemLayoutAnimation={SequencedTransition}
       />
 
       <FloatingButton
@@ -82,6 +84,7 @@ const $flatList: ViewStyle = {
   paddingTop: getSize.v(8),
   marginTop: getSize.v(16),
   paddingBottom: getSize.v(50),
+  flexGrow: 1,
 };
 
 const $buttonStyle: ViewStyle = {

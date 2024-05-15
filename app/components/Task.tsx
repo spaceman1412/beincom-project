@@ -2,7 +2,6 @@ import { ViewStyle } from "react-native";
 import React, { useState } from "react";
 
 import Animated, {
-  FadeOutDown,
   interpolateColor,
   useAnimatedStyle,
   withTiming,
@@ -14,6 +13,7 @@ import { ClosedTask } from "./ClosedTask";
 import { OpenTask } from "./OpenTask";
 import { editTodo, Todo } from "../store/todoSlice";
 import { useAppDispatch } from "../store/store";
+import { getSize } from "../themes/responsive";
 
 type TaskProps = {
   isOpen: boolean;
@@ -47,10 +47,7 @@ export const Task = (props: TaskProps) => {
   };
 
   return (
-    <Animated.View
-      exiting={FadeOutDown}
-      style={[$openContainer, trackAnimatedStyle]}
-    >
+    <Animated.View style={[$openContainer, trackAnimatedStyle]}>
       {isOpen ? (
         <OpenTask
           handleCancel={() => changeStatus()}
@@ -67,7 +64,7 @@ export const Task = (props: TaskProps) => {
 const $openContainer: ViewStyle = {
   borderRadius: 15,
   flexDirection: "row",
-  paddingHorizontal: 24,
+  paddingHorizontal: getSize.v(20),
   paddingVertical: 16,
   shadowColor: "#000",
   shadowOffset: {

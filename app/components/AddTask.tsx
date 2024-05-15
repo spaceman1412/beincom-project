@@ -13,11 +13,7 @@ type AddTaskProps = {
 
 export const AddTask = ({ handleCancel, handleDone }: AddTaskProps) => {
   return (
-    <Animated.View
-      entering={FadeInUp}
-      exiting={FadeOutDown}
-      style={$openContainer}
-    >
+    <Animated.View entering={FadeInUp} style={$openContainer}>
       <OpenTask
         handleCancel={handleCancel}
         handleDone={handleDone}

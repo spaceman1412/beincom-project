@@ -13,9 +13,9 @@ import Animated, {
   FadeOutRight,
 } from "react-native-reanimated";
 import { getSize } from "../themes/responsive";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Feather } from "@expo/vector-icons";
 
-import { Todo, toggleCheckBox } from "../store/todoSlice";
+import { removeTodo, Todo, toggleCheckBox } from "../store/todoSlice";
 import { useAppDispatch } from "../store/store";
 import { getDatesBetween, priorityColors } from "../themes/constant";
 
@@ -28,6 +28,10 @@ export const ClosedTask = (props: ClosedTaskProps) => {
   const { handleEdit, value } = props;
 
   const dispatch = useAppDispatch();
+
+  const handleDelete = () => {
+    dispatch(removeTodo(value.id));
+  };
 
   return (
     <>
@@ -59,9 +63,23 @@ export const ClosedTask = (props: ClosedTaskProps) => {
           exiting={FadeOutRight}
           style={$endContainer}
         >
-          <TouchableOpacity onPress={handleEdit}>
-            <FontAwesome name="pencil" size={24} color="black" />
-          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
+            <TouchableOpacity onPress={handleEdit}>
+              <FontAwesome name="pencil" size={24} color="black" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{ marginStart: getSize.v(16) }}
+              onPress={handleDelete}
+            >
+              <Feather name="trash-2" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+
           {getDatesBetween(value.date) > 0 && (
             <Text style={$dateText}>{`About ${getDatesBetween(
               value.date
