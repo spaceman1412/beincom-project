@@ -3,6 +3,7 @@ import { TouchableOpacity, View, Text, TextStyle } from "react-native";
 import ModalSelector from "react-native-modal-selector";
 import { colors } from "../themes/color";
 import { priority } from "../store/todoSlice";
+import { priorityColors } from "../themes/constant";
 
 type PickerTextBoxProps = {
   priority: priority;
@@ -43,7 +44,7 @@ export const PickerTextBox = (props: PickerTextBoxProps) => {
             }}
           >
             <Text style={$text}>Priority</Text>
-            <Text>{priority}</Text>
+            <Text style={{ color: priorityColors[priority] }}>{priority}</Text>
           </View>
 
           <View

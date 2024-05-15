@@ -1,9 +1,10 @@
-import Animated, { FadeOutDown } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeOutDown } from "react-native-reanimated";
 import { OpenTask } from "./OpenTask";
 import { ViewStyle } from "react-native";
 import { colors } from "../themes/color";
 import { nanoid } from "@reduxjs/toolkit";
 import { Todo } from "../store/todoSlice";
+import { getSize } from "../themes/responsive";
 
 type AddTaskProps = {
   handleCancel: () => void;
@@ -12,7 +13,11 @@ type AddTaskProps = {
 
 export const AddTask = ({ handleCancel, handleDone }: AddTaskProps) => {
   return (
-    <Animated.View exiting={FadeOutDown} style={$openContainer}>
+    <Animated.View
+      entering={FadeInUp}
+      exiting={FadeOutDown}
+      style={$openContainer}
+    >
       <OpenTask
         handleCancel={handleCancel}
         handleDone={handleDone}
@@ -43,4 +48,5 @@ const $openContainer: ViewStyle = {
   elevation: 2,
   alignItems: "center",
   backgroundColor: colors.background,
+  marginTop: getSize.v(16),
 };

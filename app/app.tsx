@@ -21,6 +21,7 @@ import { addTodo, Todo, updateTodo } from "./store/todoSlice";
 import { nanoid } from "@reduxjs/toolkit";
 import Animated, { FadeOutDown } from "react-native-reanimated";
 import { AddTask } from "./components/AddTask";
+import { getSortedTodoList } from "./themes/constant";
 
 export const App = () => {
   const [isAdd, setIsAdd] = useState(false);
@@ -28,12 +29,6 @@ export const App = () => {
 
   const dispatch = useAppDispatch();
   const todoLists = useAppSelector((state) => state.todoReducer.todoLists);
-
-  useEffect(() => {
-    console.log(todoLists);
-  }, [todoLists]);
-
-  const tempFunc = () => {};
 
   const handleAddTask = (todo: Todo) => {
     dispatch(addTodo(todo));
@@ -56,7 +51,7 @@ export const App = () => {
       )}
 
       <FlatList
-        data={todoLists}
+        data={getSortedTodoList(todoLists)}
         keyExtractor={(item) => item.id}
         renderItem={(value) => <Task isOpen={false} value={value.item} />}
         ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
@@ -86,10 +81,10 @@ const FloatingButton = ({ onClick }: FloatingButtonProps) => {
 };
 
 const $flatList: ViewStyle = {
-  flex: 1,
   paddingHorizontal: getSize.v(8),
   paddingTop: getSize.v(8),
   marginTop: getSize.v(16),
+  paddingBottom: getSize.v(50),
 };
 
 const $buttonStyle: ViewStyle = {

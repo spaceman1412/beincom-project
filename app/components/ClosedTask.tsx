@@ -17,18 +17,12 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useState } from "react";
 import { Todo, toggleCheckBox } from "../store/todoSlice";
 import { useAppDispatch } from "../store/store";
-import { getDatesBetween } from "../themes/constant";
+import { getDatesBetween, priorityColors } from "../themes/constant";
 import { colors } from "../themes/color";
 
 type ClosedTaskProps = {
   handleEdit: () => void;
   value: Todo;
-};
-
-const priorityColors = {
-  High: colors.strongGreen,
-  Medium: colors.yellow,
-  Low: colors.red,
 };
 
 export const ClosedTask = (props: ClosedTaskProps) => {
