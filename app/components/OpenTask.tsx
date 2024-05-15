@@ -13,6 +13,7 @@ import { colors } from "../themes/color";
 import { DateTextBox } from "./DateTextBox";
 import { PickerTextBox } from "./PickerTextBox";
 import { priority, Todo } from "../store/todoSlice";
+import Animated, { SlideInUp } from "react-native-reanimated";
 
 type OpenTaskProps = {
   handleDone: (todo: Todo) => void;
@@ -55,7 +56,7 @@ export const OpenTask = (props: OpenTaskProps) => {
   };
 
   return (
-    <View style={$mainContainer}>
+    <Animated.View entering={SlideInUp.duration(600)} style={$mainContainer}>
       <View
         style={{
           alignSelf: "flex-end",
@@ -88,7 +89,7 @@ export const OpenTask = (props: OpenTaskProps) => {
       <TouchableOpacity onPress={handleOnDone} style={$confirmButton}>
         <Text style={[{ color: colors.background }, $text]}>Done</Text>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 };
 
