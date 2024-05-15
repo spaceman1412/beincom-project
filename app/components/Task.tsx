@@ -1,5 +1,5 @@
 import { ViewStyle } from "react-native";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 
 import Animated, {
   interpolateColor,
@@ -20,7 +20,7 @@ type TaskProps = {
   value: Todo;
 };
 
-export const Task = (props: TaskProps) => {
+export const Task = memo((props: TaskProps) => {
   const [isOpen, setIsOpen] = useState(props.isOpen);
   const dispatch = useAppDispatch();
 
@@ -59,7 +59,7 @@ export const Task = (props: TaskProps) => {
       )}
     </Animated.View>
   );
-};
+});
 
 const $openContainer: ViewStyle = {
   borderRadius: 15,

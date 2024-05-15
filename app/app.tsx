@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {
-  FlatList,
+  KeyboardAvoidingView,
   Text,
   TextStyle,
   TouchableOpacity,
@@ -35,34 +35,37 @@ export const App = () => {
 
   return (
     <SafeAreaView style={$mainContainer}>
-      <StatusBar style="auto" />
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+        <StatusBar style="auto" />
 
-      <Text style={$titleText}>To Do List</Text>
+        <Text style={$titleText}>To Do List</Text>
 
-      {isAdd && (
-        <AddTask
-          handleCancel={() => {
-            setIsAdd(false);
-          }}
-          handleDone={handleAddTask}
+        {isAdd && (
+          <AddTask
+            handleCancel={() => {
+              setIsAdd(false);
+            }}
+            handleDone={handleAddTask}
+          />
+        )}
+
+        <Animated.FlatList
+          data={getSortedTodoList(todoLists)}
+          keyExtractor={(item) => item.id}
+          renderItem={(value) => <Task isOpen={false} value={value.item} />}
+          ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
+          contentContainerStyle={$flatList}
+          showsVerticalScrollIndicator={false}
+          removeClippedSubviews={false}
+          itemLayoutAnimation={SequencedTransition}
         />
-      )}
 
-      <Animated.FlatList
-        data={getSortedTodoList(todoLists)}
-        keyExtractor={(item) => item.id}
-        renderItem={(value) => <Task isOpen={false} value={value.item} />}
-        ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
-        contentContainerStyle={$flatList}
-        showsVerticalScrollIndicator={false}
-        itemLayoutAnimation={SequencedTransition}
-      />
-
-      <FloatingButton
-        onClick={() => {
-          setIsAdd(true);
-        }}
-      />
+        <FloatingButton
+          onClick={() => {
+            setIsAdd(true);
+          }}
+        />
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
